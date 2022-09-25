@@ -1,5 +1,7 @@
 # All functions for haplotype selection
 
+# Change
+
 Extract.Genotypes <- function(sample,vcf) {
   if (file.exists(substr(vcf, 1, nchar(vcf)-3))) {
     new_vcf <- vcf
