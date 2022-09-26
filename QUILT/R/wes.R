@@ -328,7 +328,7 @@ select_K_haps_by_rare_alleles <- function(pos.gen.depths.exon,
   #het_sites <-find_het_sites(WES)
   #print(het_sites)
   #print(K_rarest_SNPs)
-  ref_haps_with_K_rarest_SNPs <- data.frame(SNP.index=K_rarest_SNPs$SNP.Index, MAF = K_rarest_SNPs$MAF, REF_HAP = rep(NA,K))
+  ref_haps_with_K_rarest_SNPs <- data.frame(SNP.index=K_rarest_SNPs$SNP.Index, MAF = K_rarest_SNPs$MAF, REF_HAP = rep(NA,length(K_rarest_SNPs$SNP.Index)))
   for (i in 0:(no_haps_in_reference-1)) {
     if (length(which(is.na(ref_haps_with_K_rarest_SNPs$REF_HAP)))==0) {
       print('HAPS ALL SELECTED')
