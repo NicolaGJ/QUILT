@@ -790,7 +790,7 @@ get_and_impute_one_sample <- function(
                     rhb_t_region <- rhb_t[hap_region,]
                     rhb_t_region_indices <- rhb_t_index[hap_region]
                     ## rename variables here
-                    Klocal <- 10 ## re-naming this as K usually means the number of rows of rhb_t
+                    Klocal <- 200 ## re-naming this as K usually means the number of rows of rhb_t
                     if (nicola_wes_selection_method_is_af) {
                         selection_method <- "AF"
                     } else {
