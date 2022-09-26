@@ -125,6 +125,7 @@ find_rarest_SNP_in_region<- function(WES_region, allele_freqs_in_region) {
 
 find_rarest_K_SNPs_in_region<- function(WES_region, allele_freqs_in_region, K) {
   het.sites <- find_het_sites(WES_region)
+  no_het_sites <- length(het.sites)
   print('HET SITES')
   print(het.sites)
   if (length(het.sites)==0) {
@@ -137,7 +138,12 @@ find_rarest_K_SNPs_in_region<- function(WES_region, allele_freqs_in_region, K) {
     het_allele_freqs <- data.frame(het.sites,allele_freqs_in_region[het.sites, 'MAF'])
     colnames(het_allele_freqs) <- c('SNP.Index', 'MAF')
     rarest_SNPs_in_region <- het_allele_freqs[order(het_allele_freqs$MAF, decreasing = FALSE),]
+    if (no_het_sites>K) {
     rarest_K_SNPs <- rarest_SNPs_in_region[1:K,]
+    }
+    else {
+      rarest_K_SNPs <- rarest_SNPs_in_region[1:no_het_sites,]
+    }
     return(rarest_K_SNPs)
   }
 }
@@ -315,12 +321,13 @@ select_K_haps_by_rare_alleles <- function(pos.gen.depths.exon,
   ref_positions_to_keep <- which(pos.MAF$pos.chr.ref.alt %in% pos.gen.depths.exon$pos.chr.ref.alt)
   pos.MAF <-pos.MAF[ref_positions_to_keep,]
   WES     <-pos.gen.depths.exon[which(pos.gen.depths.exon$pos.chr.ref.alt %in% pos.MAF$pos.chr.ref.alt),]
-  
+  het_sites <-find_het_sites(WES)
+  #print(het_sites)
   K_rarest_SNPs <- find_rarest_K_SNPs_in_region(WES, pos.MAF, K)
   
-  het_sites <-find_het_sites(WES)
-  print(het_sites)
-  print(K_rarest_SNPs)
+  #het_sites <-find_het_sites(WES)
+  #print(het_sites)
+  #print(K_rarest_SNPs)
   ref_haps_with_K_rarest_SNPs <- data.frame(SNP.index=K_rarest_SNPs$SNP.Index, MAF = K_rarest_SNPs$MAF, REF_HAP = rep(NA,K))
   for (i in 0:(no_haps_in_reference-1)) {
     if (length(which(is.na(ref_haps_with_K_rarest_SNPs$REF_HAP)))==0) {
