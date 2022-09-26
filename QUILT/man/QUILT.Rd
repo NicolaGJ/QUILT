@@ -70,7 +70,10 @@ QUILT(
   block_gibbs_iterations = c(3, 6, 9),
   n_gibbs_burn_in_its = 20,
   plot_per_sample_likelihoods = FALSE,
-  use_small_eHapsCurrent_tc = FALSE
+  use_small_eHapsCurrent_tc = FALSE,
+  use_nicola_wes_approach = FALSE,
+  WES = "",
+  nicola_wes_selection_method_is_af = TRUE
 )
 }
 \arguments{
@@ -205,6 +208,12 @@ QUILT(
 \item{plot_per_sample_likelihoods}{Plot per sample likelihoods i.e. the likelihood as the method progresses through the Gibbs sampling iterations}
 
 \item{use_small_eHapsCurrent_tc}{For testing purposes only}
+
+\item{use_nicola_wes_approach}{Whether to use nicola WES approach to preselect haplotypes}
+
+\item{WES}{path to whole exome sequencing file}
+
+\item{nicola_wes_selection_method_is_af}{Whether or not for WES haplotype selection to use AF method}
 }
 \value{
 Results in properly formatted version
