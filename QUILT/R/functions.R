@@ -813,7 +813,7 @@ get_and_impute_one_sample <- function(
                         )
                     )
                     #remaining_K_haps <- sort(sample(1000:nrow(rhb_t), (Ksubset-K)))
-                    remaining_K_haps <- sort(sample(c(1:nrow(rhb_t))[-first_K_haps], (Ksubset-K)))
+                    remaining_K_haps <- sort(sample(c(1:nrow(rhb_t))[-first_K_haps], (Ksubset-Klocal)))
                     which_haps_to_use <- c(first_K_haps, remaining_K_haps)+1
                 } else {
                     print_message("Using haplotypes selected at random")
