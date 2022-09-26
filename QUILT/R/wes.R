@@ -359,7 +359,7 @@ run_haplotype_selection <- function(sample,
                                     toolForSelection,
                                     K,
                                     rhb_t_region_indices) {
-  
+  print(ref_alleleCount)
   WES <- refine_WES_data(sample, WES,depth_threshold)
   pos.MAF <- merge_pos_MAF(pos,ref_alleleCount)
   if (toolForSelection=='AF') {
