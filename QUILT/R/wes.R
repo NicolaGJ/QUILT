@@ -1,16 +1,16 @@
 # All functions for haplotype selection
 
-library('R.utils')
-
 Extract.Genotypes <- function(sample,vcf) {
-  if (file.exists(substr(vcf, 1, nchar(vcf)-3))) {
-    new_vcf <- vcf
-    print('FILE ALREADY UNZIPPED')
-  }
-  else {
+  print('HELLO')
+  #if (file.exists(substr(vcf, 1, nchar(vcf)-3))) {
+  #  new_vcf <- substr(vcf, 1, nchar(vcf)-3)
+  #  print('FILE ALREADY UNZIPPED')
+  #}
+  #else {
   #new_vcf <- gunzip(paste(vcf,'.gz', sep=''), remove=FALSE)
-  new_vcf <- R.utils::gunzip(vcf, remove=FALSE)
-  }
+  #new_vcf <- R.utils::gunzip(vcf, remove=FALSE)
+  #}
+  new_vcf <- vcf
   tmp_vcf<-readLines(new_vcf)
   tmp_vcf_data<-read.table(new_vcf, stringsAsFactors = FALSE)
   tmp_vcf<-tmp_vcf[-(grep("#CHROM",tmp_vcf)+1):-(length(tmp_vcf))]
