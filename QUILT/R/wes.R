@@ -325,6 +325,7 @@ select_K_haps_by_rare_alleles <- function(pos.gen.depths.exon,
   for (i in 0:(no_haps_in_reference-1)) {
     if (length(which(is.na(ref_haps_with_K_rarest_SNPs$REF_HAP)))==0) {
       print('HAPS ALL SELECTED')
+      print(ref_haps_with_K_rarest_SNPs$REF_HAP)
       return(ref_haps_with_K_rarest_SNPs$REF_HAP)
     }
     else {
