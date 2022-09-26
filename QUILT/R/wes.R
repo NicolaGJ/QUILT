@@ -9,7 +9,7 @@ Extract.Genotypes <- function(sample,vcf) {
   }
   else {
   #new_vcf <- gunzip(paste(vcf,'.gz', sep=''), remove=FALSE)
-  new_vcf <- gunzip(vcf, remove=FALSE)
+  new_vcf <- R.utils::gunzip(vcf, remove=FALSE)
   }
   tmp_vcf<-readLines(new_vcf)
   tmp_vcf_data<-read.table(new_vcf, stringsAsFactors = FALSE)
