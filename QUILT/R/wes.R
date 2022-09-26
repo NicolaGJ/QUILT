@@ -225,8 +225,8 @@ merge_pos_MAF <- function(pos, ref_alleleCount) {
   print(ref_alleleCount)
   pos$pos.chr.ref.alt <- paste(pos$POS, ":", pos$CHR,":", pos$REF,":", pos$ALT )
   ref_alleleCount <- as.data.frame(ref_alleleCount)
-  ref_alleleCount$MAF <- as.numeric(ref_alleleCount[,3])
-  w <- (ref_alleleCount[, 3] > 0.5)
+  ref_alleleCount$MAF <- as.numeric(ref_alleleCount[,1])
+  w <- (ref_alleleCount[, 1] > 0.5)
   ref_alleleCount[w, "MAF"] <- 1 - ref_alleleCount[w, "MAF"]
   
   pos.MAF <- as.data.frame(cbind(pos$pos.chr.ref.alt,ref_alleleCount$MAF))

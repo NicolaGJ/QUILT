@@ -803,7 +803,7 @@ get_and_impute_one_sample <- function(
                             WES,
                             rhb_t, 
                             pos,
-                            ref_alleleCount,
+                            af,
                             nSNPs,
                             depth_threshold,
                             nicola_wes_selection_method,
