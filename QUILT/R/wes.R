@@ -228,8 +228,8 @@ refine_WES_data <- function(sample, WES, depth_threshold){
 
 
 merge_pos_MAF <- function(pos, ref_alleleCount) {
-  print(pos)
-  print(ref_alleleCount)
+  #print(pos)
+  #print(ref_alleleCount)
   pos$pos.chr.ref.alt <- paste(pos$POS, ":", pos$CHR,":", pos$REF,":", pos$ALT )
   ref_alleleCount <- as.data.frame(ref_alleleCount)
   ref_alleleCount$MAF <- as.numeric(ref_alleleCount[,1])
