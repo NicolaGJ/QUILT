@@ -98,7 +98,7 @@ find_het_SNPs_in_sample <- function(sample_gen_data) {
 
 
 find_het_sites <- function(WES_region){
-  het.sites <- print(WES_region$GEN)
+  #het.sites <- print(WES_region$GEN)
   het.sites <- which(WES_region$GEN==1)
   return(het.sites)
 }
@@ -107,14 +107,14 @@ find_het_sites <- function(WES_region){
 find_rarest_SNP_in_region<- function(WES_region, allele_freqs_in_region) {
   het.sites <- find_het_sites(WES_region)
   print('HET SITES')
-  print(het.sites)
+  #print(het.sites)
   if (length(het.sites)==0) {
     print('NO HET SITES')
     rarest_SNP_in_region <- NA
     return(list(NA,NA))
   }
   else {
-    print(het.sites)
+    #print(het.sites)
     het_allele_freqs <- allele_freqs_in_region[het.sites, c('pos.chr.ref.alt','MAF')]
     #print(het_allele_freqs)
     rarest_SNP_in_region <- which.min(het_allele_freqs$MAF)
@@ -128,7 +128,7 @@ find_rarest_K_SNPs_in_region<- function(WES_region, allele_freqs_in_region, K) {
   het.sites <- find_het_sites(WES_region)
   no_het_sites <- length(het.sites)
   print('HET SITES')
-  print(het.sites)
+  #print(het.sites)
   if (length(het.sites)==0) {
     print('NO HET SITES')
     rarest_SNP_in_region <- NA
@@ -173,8 +173,8 @@ find_rarest_SNP_per_region <- function(WES, allele_freqs, region_divide) {
   for (j in (1:(no_regions))) {
     REGION_START <- region_divide[j]
     REGION_END   <- region_divide[j+1]-1
-    print('ALLELE FREQS IN REGION')
-    print(allele_freqs[REGION_START:REGION_END,])
+    #print('ALLELE FREQS IN REGION')
+    #print(allele_freqs[REGION_START:REGION_END,])
     index.rarest.SNP <- find_rarest_SNP_in_region(WES[REGION_START:REGION_END,],
                                                   allele_freqs[REGION_START:REGION_END,])[[1]]
     MAF.rarest.SNP <- find_rarest_SNP_in_region(WES[REGION_START:REGION_END,],
@@ -342,10 +342,10 @@ select_K_haps_by_rare_alleles <- function(pos.gen.depths.exon,
       #print(hap_refined)
     }
     SNPs_to_cover <- which(is.na(ref_haps_with_K_rarest_SNPs$REF_HAP))
-    print(SNPs_to_cover)
+    #print(SNPs_to_cover)
     for (SNP in (SNPs_to_cover)) {
-      print(ref_haps_with_K_rarest_SNPs$SNP.index)
-      print(hap_refined[ref_haps_with_K_rarest_SNPs$SNP.index[SNP]])
+      #print(ref_haps_with_K_rarest_SNPs$SNP.index)
+      #print(hap_refined[ref_haps_with_K_rarest_SNPs$SNP.index[SNP]])
       if (hap_refined[ref_haps_with_K_rarest_SNPs$SNP.index[SNP]]==1) {
         if (!(i %in% ref_haps_with_K_rarest_SNPs$REF_HAP)){
           ref_haps_with_K_rarest_SNPs$REF_HAP[SNP]=i
