@@ -98,6 +98,7 @@ find_het_SNPs_in_sample <- function(sample_gen_data) {
 
 
 find_het_sites <- function(WES_region){
+  het.sites <- print(WES_region$GEN)
   het.sites <- which(WES_region$GEN==1)
   return(het.sites)
 }
