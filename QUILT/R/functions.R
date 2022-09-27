@@ -796,7 +796,7 @@ get_and_impute_one_sample <- function(
                     } else {
                         selection_method <- "something_else"
                     }
-                    print(af)
+                    #print(af)
                     first_K_haps <- sort(
                         run_haplotype_selection(
                             sample_name,
