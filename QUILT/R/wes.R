@@ -250,7 +250,7 @@ select_K_haps_by_match_length <- function(pos.gen.depths.exon,
                                           nSNPs,
                                           depth_threshold,
                                           K,
-                                          rhb_t_region_indices){
+                                          haps_to_inspect){
   
   no_haps_in_reference <- nrow(rhb_t)
   pos$pos.chr.ref.alt <- paste(pos$POS, ":", pos$CHR,":", pos$REF,":", pos$ALT )
@@ -379,7 +379,7 @@ run_haplotype_selection <- function(sample,
                                     region_divide,
                                     toolForSelection,
                                     K,
-                                    rhb_t_region_indices) {
+                                    haps_to_inspect) {
   #print(ref_alleleCount)
   WES <- refine_WES_data(sample, WES,depth_threshold)
   pos.MAF <- merge_pos_MAF(pos,ref_alleleCount)
@@ -391,7 +391,8 @@ run_haplotype_selection <- function(sample,
                                                      nSNPs,
                                                      depth_threshold,
                                                      #region_divide,
-                                                     K)
+                                                     K,
+                                                     haps_to_inspect)
   }
   else {
     haps_for_subset <- select_K_haps_by_match_length(WES, 
@@ -400,7 +401,7 @@ run_haplotype_selection <- function(sample,
                                                      nSNPs,
                                                      depth_threshold,
                                                      K,
-                                                     rhb_t_region_indices)
+                                                     haps_to_inspect)
   }
   return(haps_for_subset)
 }
