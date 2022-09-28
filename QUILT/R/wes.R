@@ -277,7 +277,7 @@ select_K_haps_by_match_length <- function(pos.gen.depths.exon,
   #print(region.list)
   
   for (i in 0:(no_haps_in_reference-1)) {
-    print(i)
+    #print(i)
     hap_to_evaluate <- inflate_haps_to_check(i, rhb_t, nSNPs)
     hap_refined <- hap_to_evaluate[ref_positions_to_keep]
     hap_split <- SplitAt(hap_refined, region_divide) 
@@ -311,6 +311,7 @@ select_K_haps_by_match_length <- function(pos.gen.depths.exon,
     potential_haps_for_region <- ordered_region_list[[counter]]$REF_HAP
     HAPS_FOR_SUBSET[i] <- find_hap_not_added(potential_haps_for_region,HAPS_FOR_SUBSET)
   }
+  print(HAPS_FOR_SUBSET)
   return(HAPS_FOR_SUBSET)
 }
 
