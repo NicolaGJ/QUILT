@@ -242,7 +242,6 @@ merge_pos_MAF <- function(pos, ref_alleleCount) {
   
 }
 
-haps_to_inspect <- sample(0:(nrow(rhb_t)-1), 1000, replace=FALSE)
 
 
 select_K_haps_by_match_length <- function(pos.gen.depths.exon, 
