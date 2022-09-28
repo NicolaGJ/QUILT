@@ -271,7 +271,7 @@ select_K_haps_by_match_length <- function(pos.gen.depths.exon,
   
   region.list <- vector(mode='list', length = no_regions)
   for (i in (1:no_regions)) {
-    region.list[[i]] <- data.frame(REF_HAP=c(rhb_t_region_indices),MATCH_LENGTH=rep(NA,no_haps_in_reference))
+    region.list[[i]] <- data.frame(REF_HAP=c(haps_to_inspect),MATCH_LENGTH=rep(NA,no_haps_in_reference))
   }
   HAPS_FOR_SUBSET <- rep(NA,K)
   #print(region.list)
