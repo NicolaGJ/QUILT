@@ -315,6 +315,7 @@ select_K_haps_by_match_length <- function(pos.gen.depths.exon,
   return(HAPS_FOR_SUBSET)
 }
 
+# Doesn't work
 
 select_K_haps_by_rare_alleles <- function(pos.gen.depths.exon, 
                                           rhb_t, 
@@ -322,7 +323,8 @@ select_K_haps_by_rare_alleles <- function(pos.gen.depths.exon,
                                           pos, 
                                           nSNPs,
                                           depth_threshold,
-                                          K){
+                                          K,
+                                          haps_to_inspect){
   
   no_haps_in_reference <- nrow(rhb_t)
   
@@ -338,9 +340,11 @@ select_K_haps_by_rare_alleles <- function(pos.gen.depths.exon,
   #print(K_rarest_SNPs)
   ref_haps_with_K_rarest_SNPs <- data.frame(SNP.index=K_rarest_SNPs$SNP.Index, MAF = K_rarest_SNPs$MAF, REF_HAP = rep(NA,length(K_rarest_SNPs$SNP.Index)))
   for (i in 0:(no_haps_in_reference-1)) {
+    #print(i)
+    #print(haps_to_inspect[i+1])
     if (length(which(is.na(ref_haps_with_K_rarest_SNPs$REF_HAP)))==0) {
       print('HAPS ALL SELECTED')
-      print(ref_haps_with_K_rarest_SNPs$REF_HAP)
+      print(ref_haps_with_K_rarest_SNPs)
       return(ref_haps_with_K_rarest_SNPs$REF_HAP)
     }
     else {
@@ -354,8 +358,9 @@ select_K_haps_by_rare_alleles <- function(pos.gen.depths.exon,
       #print(ref_haps_with_K_rarest_SNPs$SNP.index)
       #print(hap_refined[ref_haps_with_K_rarest_SNPs$SNP.index[SNP]])
       if (hap_refined[ref_haps_with_K_rarest_SNPs$SNP.index[SNP]]==1) {
-        if (!(i %in% ref_haps_with_K_rarest_SNPs$REF_HAP)){
-          ref_haps_with_K_rarest_SNPs$REF_HAP[SNP]=i
+        #print(hap_refined[ref_haps_with_K_rarest_SNPs$SNP.index[SNP]])
+        if (!(haps_to_inspect[i+1] %in% ref_haps_with_K_rarest_SNPs$REF_HAP)){
+          ref_haps_with_K_rarest_SNPs$REF_HAP[SNP]=haps_to_inspect[i+1]
         }
       }
       
