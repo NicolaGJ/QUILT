@@ -783,25 +783,26 @@ get_and_impute_one_sample <- function(
                     print_message("Using Nicola WES haplotype selection approach")
                     ## 
                     depth_threshold <- 10
-                    region_divide <- seq(0,400, 50) ## be careful about this! what if regions are larger or smaller
+                    #region_divide <- seq(0,400, 50) ## be careful about this! what if regions are larger or smaller
                     ##
                     rhb_t_index  <- 0:(nrow(rhb_t)-1)
-                    hap_region   <- 1:1000
-                    rhb_t_region <- rhb_t[hap_region,]
-                    rhb_t_region_indices <- rhb_t_index[hap_region]
+                    no_haps_to_inspect <- 1000
+                    haps_to_inspect <- sort(sample(0:(nrow(rhb_t)-1), no_haps_to_inspect, replace=FALSE), decreasing=FALSE)
                     ## rename variables here
                     Klocal <- 200 ## re-naming this as K usually means the number of rows of rhb_t
                     if (nicola_wes_selection_method_is_af) {
                         selection_method <- "AF"
+                        rhb_t_region <- rhb_t
                     } else {
                         selection_method <- "something_else"
+                        rhb_t_region <- rhb_t[(haps_to_inspect+1),]
                     }
                     print(sample_name)
                     first_K_haps <- sort(
                         run_haplotype_selection(
                             sample_name,
                             WES,
-                            rhb_t, 
+                            rhb_t_region, 
                             pos,
                             af,
                             nSNPs,
@@ -809,7 +810,7 @@ get_and_impute_one_sample <- function(
                             nicola_wes_selection_method,
                             selection_method,
                             Klocal,
-                            rhb_t_region_indices
+                            haps_to_inspect
                         )
                     )
                     #remaining_K_haps <- sort(sample(1000:nrow(rhb_t), (Ksubset-K)))

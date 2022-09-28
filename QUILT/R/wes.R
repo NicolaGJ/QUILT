@@ -242,24 +242,32 @@ merge_pos_MAF <- function(pos, ref_alleleCount) {
   
 }
 
+haps_to_inspect <- sample(0:(nrow(rhb_t)-1), 1000, replace=FALSE)
+
 
 select_K_haps_by_match_length <- function(pos.gen.depths.exon, 
                                           rhb_t, 
                                           pos, 
                                           nSNPs,
                                           depth_threshold,
-                                          region_divide,
                                           K,
                                           rhb_t_region_indices){
   
   no_haps_in_reference <- nrow(rhb_t)
-  no_regions <- length(region_divide)-1
   pos$pos.chr.ref.alt <- paste(pos$POS, ":", pos$CHR,":", pos$REF,":", pos$ALT )
   
   pos_gen_data <- pos.gen.depths.exon[,1]
   ref_positions_to_keep <- which(pos$pos.chr.ref.alt %in% pos.gen.depths.exon$pos.chr.ref.alt)
   pos <-pos[ref_positions_to_keep,]
   WES     <-pos.gen.depths.exon[which(pos.gen.depths.exon$pos.chr.ref.alt %in% pos$pos.chr.ref.alt),]
+  SNPs <- length(WES[,1])
+  region_divide<- seq(50, 50*floor(SNPs/50), 50)
+  
+  #print(pos)
+  #print(WES)
+  WES_split <- SplitAt(WES$GEN, region_divide)
+  no_regions <- length(WES_split)
+  #print(WES_split)
   
   
   region.list <- vector(mode='list', length = no_regions)
@@ -267,33 +275,31 @@ select_K_haps_by_match_length <- function(pos.gen.depths.exon,
     region.list[[i]] <- data.frame(REF_HAP=c(rhb_t_region_indices),MATCH_LENGTH=rep(NA,no_haps_in_reference))
   }
   HAPS_FOR_SUBSET <- rep(NA,K)
+  #print(region.list)
   
   for (i in 0:(no_haps_in_reference-1)) {
+    print(i)
     hap_to_evaluate <- inflate_haps_to_check(i, rhb_t, nSNPs)
     hap_refined <- hap_to_evaluate[ref_positions_to_keep]
-    #print(length(hap_refined))
-    #print(length(WES[,1]))
-    #colnames(pos.ref)[1] <-'pos.chr.ref.alt'
-    # Merges genotyped data with reference hap by position
-    #pos.WES.hap <- get_genotyped_with_refs(pos.gen.depths.exon[,1:2], pos.ref)
-    
-    for (j in (1:(no_regions))) {
-      REGION_START <- region_divide[j]
-      REGION_END   <- region_divide[j+1]-1
-      #MATCHES_THIS_REGION <- mapply(check_if_match,pos.WES.hap[REGION_START:REGION_END,2],
-      #                              pos.WES.hap[REGION_START:REGION_END,3])
-      MATCHES_THIS_REGION <- mapply(check_if_match,WES[REGION_START:REGION_END,2],
-                                    hap_refined[REGION_START:REGION_END])
-      MATCH_LENGTHS <- ave(MATCHES_THIS_REGION, rleid(MATCHES_THIS_REGION), FUN = seq_along)*MATCHES_THIS_REGION
-      MAX_MATCH <- which.max(MATCH_LENGTHS)
-      region.list[[j]][i,2] <- MAX_MATCH
-      
+    hap_split <- SplitAt(hap_refined, region_divide) 
+    #print(hap_split)
+    #print(length(WES_split))
+    #print(length(hap_split))
+    matches <- mapply(matches_this_region,WES_split, hap_split)
+    #print(matches)
+    max_matches <- mapply(find_long_match, matches)
+    #print(max_matches)
+    for (j in 1:no_regions) {
+      region.list[[j]][(i+1),2] <- max(max_matches[[j]])
     }
+    
+    
   }
   ordered_region_list <- lapply(region.list,order_by_match)
+  #print(ordered_region_list)
   counter <- 0 
   for (i in (1:K)) {
-    print(length(region.list))
+    #print(length(region.list))
     if (counter == (length(region.list))) {
       print('COUNTER TOO BIG')
       counter <- 1
@@ -301,13 +307,14 @@ select_K_haps_by_match_length <- function(pos.gen.depths.exon,
     else {
       counter <- counter +1 
     }
-    print(counter)
-    print(length(region.list))
+    #print(counter)
+    #print(length(region.list))
     potential_haps_for_region <- ordered_region_list[[counter]]$REF_HAP
     HAPS_FOR_SUBSET[i] <- find_hap_not_added(potential_haps_for_region,HAPS_FOR_SUBSET)
   }
   return(HAPS_FOR_SUBSET)
 }
+
 
 select_K_haps_by_rare_alleles <- function(pos.gen.depths.exon, 
                                           rhb_t, 
@@ -387,13 +394,23 @@ run_haplotype_selection <- function(sample,
                                                      pos, 
                                                      nSNPs,
                                                      depth_threshold,
-                                                     region_divide,
                                                      K,
                                                      rhb_t_region_indices)
   }
   return(haps_for_subset)
 }
 
+
+
+matches_this_region <- function(reg1, reg2) {
+  
+  matches <- mapply(check_if_match, reg1, reg2)
+  
+}
+
+find_long_match <- function(MATCHES_THIS_REGION) {
+  ave(MATCHES_THIS_REGION, rleid(MATCHES_THIS_REGION), FUN = seq_along)*MATCHES_THIS_REGION
+}
 
 
 
