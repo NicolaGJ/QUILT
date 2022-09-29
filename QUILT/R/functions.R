@@ -786,7 +786,7 @@ get_and_impute_one_sample <- function(
                     #region_divide <- seq(0,400, 50) ## be careful about this! what if regions are larger or smaller
                     ##
                     rhb_t_index  <- 0:(nrow(rhb_t)-1)
-                    no_haps_to_inspect <- 1000
+                    no_haps_to_inspect <- 5000
                     Klocal <- 200 ## re-naming this as K usually means the number of rows of rhb_t
                     random_order <- sample(0:(nrow(rhb_t)-1),nrow(rhb_t),replace=FALSE)
                     if (nicola_wes_selection_method_is_af) {
@@ -796,10 +796,10 @@ get_and_impute_one_sample <- function(
                         rhb_t_region <- rhb_t[(random_order+1),]
                     } else {
                         selection_method <- "something_else"
-                        #haps_to_inspect <- sort(sample(0:(nrow(rhb_t)-1), no_haps_to_inspect, replace=FALSE), decreasing=FALSE)
-                        #rhb_t_region <- rhb_t[(haps_to_inspect+1),]
-                        rhb_t_region <- rhb_t
-                        haps_to_inspect <- 0:(nrow(rhb_t)-1)
+                        haps_to_inspect <- sort(sample(0:(nrow(rhb_t)-1), no_haps_to_inspect, replace=FALSE), decreasing=FALSE)
+                        rhb_t_region <- rhb_t[(haps_to_inspect+1),]
+                        #rhb_t_region <- rhb_t
+                        #haps_to_inspect <- 0:(nrow(rhb_t)-1)
                         
                     }
                     print(sample_name)
