@@ -789,6 +789,8 @@ get_and_impute_one_sample <- function(
                     no_haps_to_inspect <- 5000
                     Klocal <- 200 ## re-naming this as K usually means the number of rows of rhb_t
                     random_order <- sample(0:(nrow(rhb_t)-1),nrow(rhb_t),replace=FALSE)
+                    rhb_t_t <- t(rhb_t)
+                    pos$pos.chr.ref.alt <- paste(pos$POS, ":", pos$CHR,":", pos$REF,":", pos$ALT )
                     if (nicola_wes_selection_method_is_af) {
                         selection_method <- "AF"
                         #rhb_t_region <- rhb_t
@@ -796,10 +798,10 @@ get_and_impute_one_sample <- function(
                         rhb_t_region <- rhb_t[(random_order+1),]
                     } else {
                         selection_method <- "something_else"
-                        haps_to_inspect <- sort(sample(0:(nrow(rhb_t)-1), no_haps_to_inspect, replace=FALSE), decreasing=FALSE)
-                        rhb_t_region <- rhb_t[(haps_to_inspect+1),]
-                        #rhb_t_region <- rhb_t
-                        #haps_to_inspect <- 0:(nrow(rhb_t)-1)
+                        #haps_to_inspect <- sort(sample(0:(nrow(rhb_t)-1), no_haps_to_inspect, replace=FALSE), decreasing=FALSE)
+                        #rhb_t_region <- rhb_t[(haps_to_inspect+1),]
+                        rhb_t_region <- rhb_t
+                        haps_to_inspect <- 0:(nrow(rhb_t)-1)
                         
                     }
                     print(sample_name)
@@ -815,7 +817,8 @@ get_and_impute_one_sample <- function(
                             nicola_wes_selection_method,
                             selection_method,
                             Klocal,
-                            haps_to_inspect
+                            haps_to_inspect,
+                            rhb_t_t
                         )
                     )
                     #remaining_K_haps <- sort(sample(1000:nrow(rhb_t), (Ksubset-K)))

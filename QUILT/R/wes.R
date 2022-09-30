@@ -250,10 +250,11 @@ select_K_haps_by_match_length <- function(pos.gen.depths.exon,
                                           nSNPs,
                                           depth_threshold,
                                           K,
-                                          haps_to_inspect){
+                                          haps_to_inspect,
+                                          rhb_t_t){
   
   no_haps_in_reference <- nrow(rhb_t)
-  pos$pos.chr.ref.alt <- paste(pos$POS, ":", pos$CHR,":", pos$REF,":", pos$ALT )
+  #pos$pos.chr.ref.alt <- paste(pos$POS, ":", pos$CHR,":", pos$REF,":", pos$ALT )
   
   pos_gen_data <- pos.gen.depths.exon[,1]
   ref_positions_to_keep <- which(pos$pos.chr.ref.alt %in% pos.gen.depths.exon$pos.chr.ref.alt)
@@ -278,7 +279,7 @@ select_K_haps_by_match_length <- function(pos.gen.depths.exon,
   
   for (i in 0:(no_haps_in_reference-1)) {
     #print(i)
-    hap_to_evaluate <- inflate_haps_to_check(i, rhb_t, nSNPs)
+    hap_to_evaluate <- inflate_fhb(rhb_t_t, i, nSNPs)
     hap_refined <- hap_to_evaluate[ref_positions_to_keep]
     hap_split <- SplitAt(hap_refined, region_divide) 
     #print(hap_split)
@@ -379,7 +380,8 @@ run_haplotype_selection <- function(sample,
                                     region_divide,
                                     toolForSelection,
                                     K,
-                                    haps_to_inspect) {
+                                    haps_to_inspect,
+                                    rhb_t_t) {
   #print(ref_alleleCount)
   WES <- refine_WES_data(sample, WES,depth_threshold)
   pos.MAF <- merge_pos_MAF(pos,ref_alleleCount)
@@ -401,7 +403,8 @@ run_haplotype_selection <- function(sample,
                                                      nSNPs,
                                                      depth_threshold,
                                                      K,
-                                                     haps_to_inspect)
+                                                     haps_to_inspect,
+                                                     rhb_t_t)
   }
   return(haps_for_subset)
 }
