@@ -800,8 +800,10 @@ get_and_impute_one_sample <- function(
                         selection_method <- "something_else"
                         #haps_to_inspect <- sort(sample(0:(nrow(rhb_t)-1), no_haps_to_inspect, replace=FALSE), decreasing=FALSE)
                         #rhb_t_region <- rhb_t[(haps_to_inspect+1),]
-                        rhb_t_region <- rhb_t
-                        haps_to_inspect <- 0:(nrow(rhb_t)-1)
+                        #rhb_t_region <- rhb_t
+                        #haps_to_inspect <- 0:(nrow(rhb_t)-1)
+                        haps_to_inspect <- random_order
+                        rhb_t_region <- rhb_t[(random_order+1),]
                         
                     }
                     print(sample_name)
