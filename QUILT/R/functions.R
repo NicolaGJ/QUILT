@@ -815,7 +815,7 @@ get_and_impute_one_sample <- function(
                             pos,
                             af,
                             depth_threshold,
-                            nicola_wes_selection_method,
+                            nicola_wes_selection_method_is_af,
                             selection_method,
                             Klocal,
                             haps_to_inspect,
