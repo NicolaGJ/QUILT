@@ -814,7 +814,6 @@ get_and_impute_one_sample <- function(
                             rhb_t_region, 
                             pos,
                             af,
-                            nSNPs,
                             depth_threshold,
                             nicola_wes_selection_method,
                             selection_method,

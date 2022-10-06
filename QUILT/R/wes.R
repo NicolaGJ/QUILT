@@ -325,7 +325,8 @@ select_K_haps_by_rare_alleles <- function(pos.gen.depths.exon,
                                           nSNPs,
                                           depth_threshold,
                                           K,
-                                          haps_to_inspect){
+                                          haps_to_inspect,
+                                          rhb_t_t){
   
   no_haps_in_reference <- nrow(rhb_t)
   
@@ -349,7 +350,7 @@ select_K_haps_by_rare_alleles <- function(pos.gen.depths.exon,
       return(ref_haps_with_K_rarest_SNPs$REF_HAP)
     }
     else {
-      hap_to_evaluate <- inflate_haps_to_check(i, rhb_t, nSNPs)
+      hap_to_evaluate <- inflate_fhb(rhb_t_t,i, nSNPs)
       hap_refined <- hap_to_evaluate[ref_positions_to_keep]
       #print(hap_refined)
     }
@@ -394,7 +395,8 @@ run_haplotype_selection <- function(sample,
                                                      depth_threshold,
                                                      #region_divide,
                                                      K,
-                                                     haps_to_inspect)
+                                                     haps_to_inspect,
+                                                     rhb_t_t)
   }
   else {
     haps_for_subset <- select_K_haps_by_match_length(WES, 
@@ -412,9 +414,7 @@ run_haplotype_selection <- function(sample,
 
 
 matches_this_region <- function(reg1, reg2) {
-  
   matches <- mapply(check_if_match, reg1, reg2)
-  
 }
 
 find_long_match <- function(MATCHES_THIS_REGION) {
